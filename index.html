@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Démo Boutique Filtrage</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    .filter-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      justify-content: flex-start;
+      margin-bottom: 20px;
+    }
+
+    .filter-container select {
+      flex: 1 1 180px;
+      background-color: #dfdfe2;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 8px;
+      font-size: 16px;
+    }
+
+    @media (max-width: 600px) {
+      .filter-container {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .filter-container select {
+        width: 100%;
+      }
+    }
+
+    .product-item {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="filter-container">
+    <select id="category-filter">
+      <option value="">Catégorie</option>
+      <option value="jdr">Jeux de rôle</option>
+      <option value="jcc">Jeux de cartes à collectionner</option>
+    </select>
+
+    <select id="color-filter">
+      <option value="">Couleur</option>
+      <option value="rouge">Rouge</option>
+      <option value="bleu">Bleu</option>
+      <option value="vert">Vert</option>
+    </select>
+  </div>
+
+  <div id="product-list">
+    <div class="product-item" data-tags="jdr rouge">⚔️ Jeu de rôle rouge</div>
+    <div class="product-item" data-tags="jdr bleu">🧙‍♂️ Jeu de rôle bleu</div>
+    <div class="product-item" data-tags="jcc rouge">🃏 Carte rouge</div>
+    <div class="product-item" data-tags="jcc vert">🌿 Carte verte</div>
+    <div class="product-item" data-tags="jdr vert">🐉 Jeu de rôle vert</div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const categorySelect = document.getElementById("category-filter");
+      const colorSelect = document.getElementById("color-filter");
+
+      function applyFilters() {
+        const category = categorySelect.value;
+        const color = colorSelect.value;
+        const items = document.querySelectorAll(".product-item");
+
+        items.forEach(item => {
+          const tags = item.getAttribute("data-tags");
+          const matchesCategory = !category || tags.includes(category);
+          const matchesColor = !color || tags.includes(color);
+
+          item.style.display = (matchesCategory && matchesColor) ? "block" : "none";
+        });
+      }
+
+      categorySelect.addEventListener("change", applyFilters);
+      colorSelect.addEventListener("change", applyFilters);
+    });
+  </script>
+
+</body>
+</html>
